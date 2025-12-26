@@ -7,17 +7,26 @@
     <!-- Premium Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
+            /* Lattice "Nano Banana" Theme Tokens */
             --bg-color: #050505;
-            --text-color: #f3f4f6; /* gray-100 */
-            --text-muted: #9ca3af; /* gray-400 */
-            --primary-color: #6366F1; /* Indigo-500 */
-            --primary-hover: #4f46e5;
-            --card-bg: #111113; /* slightly lighter than bg */
-            --border-color: #27272a; /* zinc-800 */
+            --card-bg: #0A0A0A;
+            --border-color: #1F1F23;
+            /* zinc-800 adjusted */
+            --primary-color: #6366F1;
+            /* Indigo-500 */
+            --primary-dim: rgba(99, 102, 241, 0.1);
+            --secondary-accent: #A855F7;
+            /* Purple-500 for gradients */
+            --text-color: #F3F4F6;
+            /* gray-100 */
+            --text-muted: #9CA3AF;
+            /* gray-400 */
+            --grid-color: rgba(255, 255, 255, 0.03);
         }
         * {
             box-sizing: border-box;
@@ -30,115 +39,183 @@
             color: var(--text-color);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Technical Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+        .glow-effect {
+            position: fixed;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.05));
+            filter: blur(80px);
+            z-index: -1;
+            border-radius: 50%;
+            pointer-events: none;
         }
         .container {
-            max-width: 800px;
+            max-width: 780px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 4rem 1.5rem;
+            flex-grow: 1;
         }
+        /* Header Styling */
         header {
-            margin-bottom: 4rem;
             text-align: center;
+            margin-bottom: 4rem;
         }
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 1rem;
+        .logo-wrapper {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.1));
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
         }
-        .logo svg {
-            width: 40px;
-            height: 40px;
+        .logo-wrapper svg {
+            width: 36px;
+            height: 36px;
             color: var(--primary-color);
+            fill: currentColor;
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.025em;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .metadata {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            background: var(--primary-dim);
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            display: inline-block;
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
+        /* Card/Section Styling */
         section {
-            background-color: var(--card-bg);
+            background-color: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
-            border-radius: 1rem;
+            border-radius: 12px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        section:hover {
+            border-color: rgba(99, 102, 241, 0.3);
         }
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             margin-bottom: 1.5rem;
             color: white;
+            font-weight: 600;
+            letter-spacing: -0.01em;
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
-        
-        h2::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 24px;
-            background-color: var(--primary-color);
-            border-radius: 2px;
+        h2 svg {
+            width: 20px;
+            height: 20px;
+            color: var(--primary-color);
         }
         h3 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
+            color: #E5E7EB;
             margin: 1.5rem 0 0.75rem 0;
-            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
         p {
             margin-bottom: 1rem;
-            color: #d1d5db; /* gray-300 */
+            color: #D1D5DB;
+        }
+        strong {
+            color: white;
+            font-weight: 600;
         }
         ul {
-            list-style-type: none;
+            list-style: none;
             margin-bottom: 1rem;
         }
         li {
-            position: relative;
-            padding-left: 1.5rem;
+            padding-left: 1.25rem;
             margin-bottom: 0.75rem;
-            color: #d1d5db;
+            position: relative;
         }
         li::before {
-            content: "•";
-            color: var(--primary-color);
-            font-weight: bold;
+            content: "";
             position: absolute;
             left: 0;
+            top: 0.6rem;
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            color: #E5E7EB;
         }
         a {
             color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.2s;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
         }
         a:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
+            border-bottom-color: var(--primary-color);
         }
+        /* Footer */
         footer {
             text-align: center;
-            padding: 4rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
             color: var(--text-muted);
             font-size: 0.875rem;
         }
-        /* Utility */
-        .highlight {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
         @media (max-width: 640px) {
             .container {
-                padding: 2rem 1.5rem;
+                padding: 3rem 1rem;
             }
             h1 {
                 font-size: 2rem;
@@ -150,72 +227,85 @@
     </style>
 </head>
 <body>
+    <div class="grid-bg"></div>
+    <div class="glow-effect"></div>
     <div class="container">
         <header>
-            <div class="logo">
-                <!-- Simple abstract SVG logo representation -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="3" y1="9" x2="21" y2="9"></line>
-                    <line x1="9" y1="21" x2="9" y2="9"></line>
-                </svg>
-                Lattice
+            <div class="logo-wrapper">
+                <!-- Official Lattice Logo (icon128.png) -->
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAACXBIWXMAAAsTAAAL EwEAmpwYAAALUklEQVR4nO1dTUwUyxZuhiEh0Z2J0Z3bE5N3E40Lhp8EQ4xxoRs2 vIU7V/5Aw8/w9/ChzMDgTx4gzDADw704DGC470ZRF8SFLE1cuHXp5t3EnYnA9AxT L90HmqK7q7r6Z/rn3vrSITU9zUz1+eqcU+fUqR5B4ODg4ODg4ODg4ODg4ODg4ODg 4ODg4Ph7oKamJhQKkc6HQqHaIED3FgIsfQ43EJJFf+rUqYsXLyovBUGora0VBOHa tWvr6+vpdHoeQ2Z+PgPAG8fPH1yGH5lM1vDI6p7M6l4sfcdhx9LpVGGl0PHPDvwW AoAaGYIgbG1tTUxMCIJQV1cHb0FjZGQEISSKIvI3SqUSQmh+fl4ZOkGyPLOzswih np4eQRDC4jC8C41oNIoQ2tnZEf2NnZ0dhND09HSQCIGOJpNJGESxWAwnADSgv78f 10: ta9vb1KpVLGpF+xTQCdGxZQBj76C/gAkGlDQ0OPHz9g2qO6DVHufW9vr5aAoSHv nTCdCXAT5EcCoDeXL1/+/v27rvQrVA0AAopFsUrTR0aQvlQ571MNgK788o9f/vzf n1rpI6smCJkRnIOg6IEfNQD6cf78+W/fvkG6inRjokM+gF1kFq6nzFn9SAB04ty5 c1+/fqVLv0InAHyAxgSZcsWOXBAkAiDHeebMmS9fvhhKv0IPxI4TYN8BVEOB/EWA ssDy6dMnxgmMyJyKYCdANyxw3Hv7Lg4A6Z88eXJ7e5t9+iiSCRgaGrLjhJ0FxTT5 ggCQfn19/YcPH0xN3kWyCTogoFh0VpSK7Cy/q4qWvScgFArV1NSEw+E3b96YDZ1E WiCm1gBrwnL8H3Fd9J4AkH4oFNrY2DCUlzbfIlIIkH1AkTwN9cocqQjw0gkrC+v5 fJ7FXmvzXCKZAO00lEUursF7DVAW1nO5RctJG5FCgPlI2BOd8IYARfpTU1N2UmZi lRdkqg1vTFBNTQ18UzweZ4m2nNIAr0Ayp55NQ+FrhoeHbEq/cth73bKUalRFUETJ cjJCQNo1AsDy9PT0IIT29vaKxSLUJ5VklOUDGsrLclk+Dk8eXC9KB1Q1qXJB0IjF YqrCLPgX3baqQUe5XEYmZU15y1UNgDnPw4cPEZJ6Zb+uT5R7PzIy4nppojq1Z9mB u0cAfHpra+vHjx9zuZxUuJrNLmSzCwsLuVzu5fLyH3/8d/Pt5tu3b9+9g+Pd+/fv 3x1AOrO5ubmysrK0tJTL5RYXFzOZTCqVKhQK169fx3sPjfb29tevX6fTaazoVi68 xdoUQFmuCtlsdmZm5vPnz1JtgN4Cke4Y95EGwPAMUg3wceDGjXGCa7gq6YETVm2d gDaExCoowZoC5eIQtvMCrqR/iyOor68npflUDf9OQxXJBhF1hCSHoZQpxRPeJ+MC hDqnIwzvk3F/HwIQ4bzbBIBRDjGgVmO9j78bovuAaoAxz2oKXANMgFRxZAEe1AXB OL1w4cLVq1cjkUhTU1Mjhkgk0iAjEok0NjY2wSGjubm5paWlqakpgl3W2NjY0tJy 5cqV1tbWs2fPKp9fVZBWm80uNuBu2b1ZEEz/C4WCsjNNVaaqPrTRJ9Z7JF8An9PZ 2YmnIvzgAxjXn5H7BCwuLpB6j0uZ1mkpD3BwGejv/fv3/UYAO9wm4LfffpUNaHHf CYnt7u25taENDw+nTp6teyslBAUw6hSACfkIpEAiR9wcE VfocHBwcHBwcHBwcHBwcHBwcHBwcHBwcgmn8H4vbBaKgg3YxAAAAAElFTkSuQmCC"
+                    width="40" height="40" alt="Lattice Logo"
+                    style="filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.6));" />
             </div>
             <h1>Privacy Policy</h1>
-            <p class="metadata">Last Updated: December 26, 2025</p>
+            <div class="metadata">Last Updated: December 26, 2025</div>
         </header>
         <section>
-            <p><strong>Lattice</strong> ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how our Chrome extension collects, uses, and discloses information, and what choices you have with respect to your data.</p>
+            <p><strong>Lattice</strong> ("we", "our", or "us") is designed to prioritize your privacy. We collect the
+                <strong>minimum amount of data necessary</strong> to provide our services.
+            </p>
         </section>
         <section>
-            <h2>1. Data Collection and Usage</h2>
-            <p>Lattice is designed to prioritize your privacy. We collect the <strong>minimum amount of data necessary</strong> to provide our services.</p>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+                    <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+                </svg>
+                1. Data Collection & Usage
+            </h2>
             <h3>A. User-Provided Content (Diagrams)</h3>
-            <p>When you use Lattice to evaluate a diagram on Excalidraw or other supported platforms:</p>
+            <p>When you use Lattice to evaluate a diagram on Excalidraw:</p>
             <ul>
-                <li><strong>What we do:</strong> We temporarily capture an image of your active diagram and the text/code context you verify in the side panel.</li>
-                <li><strong>How it is used:</strong> This data is sent directly to the Google Gemini API (via your own API key) for analysis.</li>
-                <li><strong>Retention:</strong> We <strong>do not</strong> store your diagrams, code, or context on our servers. The data is processed ephemerally by the AI model to generate the feedback report.</li>
+                <li><strong>Ephemeral Processing:</strong> We temporarily capture an image of your active diagram and
+                    the text/code context you verify.</li>
+                <li><strong>Direct API Transmission:</strong> This data is sent <em>directly</em> to the Google Gemini
+                    API (using your personal API key).</li>
+                <li><strong>Zero Retention:</strong> We <strong>do not</strong> store your diagrams, code, or context on
+                    our servers. The data exists only in transit to Google's API.</li>
             </ul>
             <h3>B. API Keys</h3>
             <ul>
-                <li><strong>What we do:</strong> We require you to provide your own Google Gemini API Key.</li>
-                <li><strong>How it is used:</strong> This key is stored locally on your device using Chrome's secure <code>storage.local</code> API. It is used exclusively to authenticate requests to Google's generative AI services.</li>
-                <li><strong>Retention:</strong> We never transmit your API key to any server other than Google's API endpoints. We do not have access to your key.</li>
-            </ul>
-            <h3>C. Extension Usage Data</h3>
-            <ul>
-                <li>We <strong>do not</strong> run any third-party analytics trackers (like Google Analytics or Mixpanel) inside the extension.</li>
-                <li>We <strong>do not</strong> track your browsing history. The extension only activates on specific domains (e.g., Excalidraw) when you explicitly open the side panel or click the action button.</li>
+                <li><strong>Local Storage only:</strong> Your Google Gemini API Key is stored locally on your device
+                    using Chrome's secure <code>storage.local</code> API.</li>
+                <li><strong>No Access:</strong> We never transmit your API key to any server other than Google's API
+                    endpoints. We do not have access to your key.</li>
             </ul>
         </section>
         <section>
-            <h2>2. Third-Party Services</h2>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                2. Third-Party Services
+            </h2>
             <p>We use the following third-party service to provide AI analysis:</p>
             <ul>
-                <li><strong>Google Gemini API</strong>: We send the diagram image and context to Google's servers for processing. Google's use of this data is governed by the <a href="https://policies.google.com/terms" target="_blank">Google Generative AI Terms of Service</a>.</li>
+                <li><strong>Google Gemini API</strong>: We send the diagram image and context to Google's servers for
+                    processing. Google's use of this data is governed by the <a href="https://policies.google.com/terms"
+                        target="_blank">Google Generative AI Terms of Service</a>.</li>
             </ul>
         </section>
         <section>
-            <h2>3. Data Storage</h2>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                    <polyline points="17 21 17 13 7 13 7 21" />
+                    <polyline points="7 3 7 8 15 8" />
+                </svg>
+                3. Your Rights
+            </h2>
+            <p>You have full control over your data locally:</p>
             <ul>
-                <li><strong>Local History:</strong> Lattice saves a history of your past evaluations (reports and scores) locally on your browser. This data never leaves your device unless you choose to export it.</li>
-                <li><strong>Settings:</strong> Your preferences (e.g., theme, API key) are stored locally using the Chrome Storage API.</li>
+                <li><strong>Delete History:</strong> Clear your evaluation history at any time from the "History" tab in
+                    the extension.</li>
+                <li><strong>Remove API Key:</strong> Delete your API key instantly from the "Settings" tab.</li>
+                <li><strong>Uninstall:</strong> Uninstalling the extension permanently removes all locally stored data.
+                </li>
             </ul>
-        </section>
-        <section>
-            <h2>4. Your Rights</h2>
-            <p>Since we do not store your data on our servers, there is no need to request account deletion from us. You have full control over your data to:</p>
-            <ul>
-                <li><strong>Delete History:</strong> You can clear your evaluation history at any time from the "History" tab in the extension.</li>
-                <li><strong>Remove API Key:</strong> You can delete your API key from the "Settings" tab.</li>
-                <li><strong>Uninstall:</strong> Uninstalling the extension removes all locally stored data.</li>
-            </ul>
-        </section>
-        <section>
-            <h2>5. Contact Us</h2>
-            <p>If you have questions about this Privacy Policy, please contact us at:</p>
-            <p><a href="mailto:support@example.com">Add Your Support Email Here</a></p>
         </section>
         <footer>
             <p>&copy; <span id="year"></span> Lattice Extension. All rights reserved.</p>
